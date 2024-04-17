@@ -14,11 +14,17 @@ async function entrenar() {
   
     // Train the model using the data.
     //await model.fit(xs, ys, {epochs: 500});
-    // Train the model using the data.
-    const history = await model.fit(xs, ys, { epochs: 500 });
 
-    // Plot loss
-    tfvis.show.history({ name: 'Loss', history }, ['loss']);
+    let surface = { name: "Loss", tab: "Training" };
+    let history = [];
+
+    // Train the model using the data.
+    await model.fit(xs, ys, {epochs: 300,callbacks: { onEpochEnd: (epoch, logs) => {
+            history.push(logs);
+            tfvis.show.history(surface, history, ["loss"]);
+          },
+        },
+      });
     
     document.getElementById('micro-out-div').innerText = "Entrenamiento Finalizado - Ahora puedes ingresar un valor";
     bandera = true
