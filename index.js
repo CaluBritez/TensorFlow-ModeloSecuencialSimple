@@ -13,7 +13,12 @@ async function entrenar() {
     const ys = tf.tensor2d([-6, 0, 4, 6, 10, 14, 18, 22, 26], [9, 1]);
   
     // Train the model using the data.
-    await model.fit(xs, ys, {epochs: 500});
+    //await model.fit(xs, ys, {epochs: 500});
+    // Train the model using the data.
+    const history = await model.fit(xs, ys, { epochs: 500 });
+
+    // Plot loss
+    tfvis.show.history({ name: 'Loss', history }, ['loss']);
     
     document.getElementById('micro-out-div').innerText = "Entrenamiento Finalizado - Ahora puedes ingresar un valor";
     bandera = true
